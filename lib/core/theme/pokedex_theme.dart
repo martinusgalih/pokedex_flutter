@@ -62,4 +62,51 @@ class PokedexTheme {
         return Colors.black12;
     }
   }
+
+  static Color getStatColor(String statName) {
+    switch (statName.toLowerCase()) {
+      case 'hp':
+        return red;
+      case 'attack':
+        return orange;
+      case 'defense':
+        return blue;
+      case 'special-attack':
+        return purple;
+      case 'special-defense':
+        return green;
+      case 'speed':
+        return yellow;
+      default:
+        return gray;
+    }
+  }
+
+  static const TextStyle labelGrey = TextStyle(
+    fontSize: 14,
+    color: Colors.black54,
+  );
+
+  static const TextStyle labelBlack = TextStyle(
+    fontSize: 14,
+    color: Colors.black,
+  );
+
+  static const TextStyle labelWhiteLarge = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 25,
+    color: Colors.white,
+  );
+
+  static const TextStyle labelWhiteNormal = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 16,
+    color: Colors.white,
+  );
+
+  static const TextStyle labelWhiteSmall = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 12,
+    color: Colors.white,
+  );
 }

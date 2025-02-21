@@ -18,5 +18,5 @@ class PokemonModel {
     return int.parse(uri.pathSegments[uri.pathSegments.length - 2]);
   }
 
-  String get imageUrl => Endpoints.getFrontDefaultImage(id);
+  String get imageUrl => Endpoints.getHomeFrontDefaultImage(id);
 }

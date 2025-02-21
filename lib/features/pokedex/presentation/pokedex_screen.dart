@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedex/features/pokedex/domain/pokedex_provider.dart';
 import 'package:pokedex/features/pokedex/presentation/widgets/pokedex_card.dart';
+import 'package:shimmer/shimmer.dart';
 
 class PokedexScreen extends ConsumerStatefulWidget {
   const PokedexScreen({super.key});
@@ -38,10 +39,10 @@ class _PokedexScreenState extends ConsumerState<PokedexScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pokédex'),
+        title: const Text('Pokedex'),
       ),
       body: pokemonListState.pokemons.isEmpty && pokemonListState.isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? _buildShimmerGrid(crossAxisCount)
           : Column(
         children: [
           Expanded(
@@ -49,7 +50,7 @@ class _PokedexScreenState extends ConsumerState<PokedexScreen> {
               padding: const EdgeInsets.only(left: 12, right: 12),
               controller: _scrollController,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: crossAxisCount
+                crossAxisCount: crossAxisCount,
               ),
               itemCount: pokemonListState.pokemons.length,
               itemBuilder: (context, index) {
@@ -59,11 +60,50 @@ class _PokedexScreenState extends ConsumerState<PokedexScreen> {
             ),
           ),
           if (pokemonListState.isLoading)
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: CircularProgressIndicator(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _buildShimmerLoading(),
             ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildShimmerGrid(int crossAxisCount) {
+    return GridView.builder(
+      padding: const EdgeInsets.only(left: 12, right: 12),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+      ),
+      itemCount: 8,
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          child: Container(
+            margin: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            height: 120,
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildShimmerLoading() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        width: 50,
+        height: 50,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(25),
+        ),
       ),
     );
   }

@@ -1,129 +1,193 @@
 class PokemonDetailModel {
-  final int id;
-  final String name;
-  final int height;
-  final int weight;
-  final List<TypeElement> types;
-  final List<Ability> abilities;
-  final List<Move> moves;
-  final Sprites sprites;
-  final List<Stat> stats;
+  final int? id;
+  final String? name;
+  final int? height;
+  final int? weight;
+  final List<TypeElement>? types;
+  final List<Ability>? abilities;
+  final Cries? cries;
+  final List<Move>? moves;
+  final Sprites? sprites;
+  final List<Stat>? stats;
 
   PokemonDetailModel({
-    required this.id,
-    required this.name,
-    required this.height,
-    required this.weight,
-    required this.types,
-    required this.abilities,
-    required this.moves,
-    required this.sprites,
-    required this.stats,
+    this.id,
+    this.name,
+    this.height,
+    this.weight,
+    this.types,
+    this.abilities,
+    this.cries,
+    this.moves,
+    this.sprites,
+    this.stats,
   });
 
   factory PokemonDetailModel.fromJson(Map<String, dynamic> json) {
     return PokemonDetailModel(
-      id: json['id'],
-      name: json['name'],
-      height: json['height'],
-      weight: json['weight'],
-      types: (json['types'] as List)
-          .map((type) => TypeElement.fromJson(type))
+      id: json['id'] as int?,
+      name: json['name'] as String?,
+      height: json['height'] as int?,
+      weight: json['weight'] as int?,
+      types: (json['types'] as List?)
+          ?.map((type) => TypeElement.fromJson(type))
           .toList(),
-      abilities: (json['abilities'] as List)
-          .map((ability) => Ability.fromJson(ability))
+      abilities: (json['abilities'] as List?)
+          ?.map((ability) => Ability.fromJson(ability))
           .toList(),
-      moves:
-          (json['moves'] as List).map((move) => Move.fromJson(move)).toList(),
-      sprites: Sprites.fromJson(json['sprites']),
-      stats:
-          (json['stats'] as List).map((stat) => Stat.fromJson(stat)).toList(),
+      cries: json['cries'] != null ? Cries.fromJson(json['cries']) : null,
+      moves: (json['moves'] as List?)
+          ?.map((move) => Move.fromJson(move))
+          .toList(),
+      sprites: json['sprites'] != null ? Sprites.fromJson(json['sprites']) : null,
+      stats: (json['stats'] as List?)
+          ?.map((stat) => Stat.fromJson(stat))
+          .toList(),
     );
   }
 }
 
 class Ability {
-  final Species ability;
-  final bool isHidden;
-  final int slot;
+  final Species? ability;
+  final bool? isHidden;
+  final int? slot;
 
-  Ability({required this.ability, required this.isHidden, required this.slot});
+  Ability({this.ability, this.isHidden, this.slot});
 
   factory Ability.fromJson(Map<String, dynamic> json) {
     return Ability(
-      ability: Species.fromJson(json['ability']),
-      isHidden: json['is_hidden'],
-      slot: json['slot'],
+      ability: json['ability'] != null ? Species.fromJson(json['ability']) : null,
+      isHidden: json['is_hidden'] as bool?,
+      slot: json['slot'] as int?,
     );
   }
 }
 
 class Move {
-  final Species move;
+  final Species? move;
 
-  Move({required this.move});
+  Move({this.move});
 
   factory Move.fromJson(Map<String, dynamic> json) {
     return Move(
-      move: Species.fromJson(json['move']),
+      move: json['move'] != null ? Species.fromJson(json['move']) : null,
+    );
+  }
+}
+
+class Cries {
+  final String? latest;
+  final String? legacy;
+
+  Cries({this.latest, this.legacy});
+
+  factory Cries.fromJson(Map<String, dynamic> json) {
+    return Cries(
+      latest: json['latest'] as String?,
+      legacy: json['legacy'] as String?
     );
   }
 }
 
 class TypeElement {
-  final int slot;
-  final Species type;
+  final int? slot;
+  final Species? type;
 
-  TypeElement({required this.slot, required this.type});
+  TypeElement({this.slot, this.type});
 
   factory TypeElement.fromJson(Map<String, dynamic> json) {
     return TypeElement(
-      slot: json['slot'],
-      type: Species.fromJson(json['type']),
+      slot: json['slot'] as int?,
+      type: json['type'] != null ? Species.fromJson(json['type']) : null,
     );
   }
 }
 
 class Species {
-  final String name;
-  final String url;
+  final String? name;
+  final String? url;
 
-  Species({required this.name, required this.url});
+  Species({this.name, this.url});
 
   factory Species.fromJson(Map<String, dynamic> json) {
     return Species(
-      name: json['name'],
-      url: json['url'],
+      name: json['name'] as String?,
+      url: json['url'] as String?,
     );
   }
 }
 
 class Sprites {
-  final String frontDefault;
+  final String? frontDefault;
   final String? frontShiny;
+  final String? backDefault;
+  final String? backShiny;
+  final String? frontFemale;
+  final String? frontShinyFemale;
+  final String? backFemale;
+  final String? backShinyFemale;
 
-  Sprites({required this.frontDefault, this.frontShiny});
+  final String? officialArtworkFrontDefault;
+  final String? officialArtworkBackDefault;
+  final String? dreamWorld;
+  final String? homeFrontDefault;
+  final String? homeFrontShiny;
+  final String? showdownFrontDefault;
+  final String? showdownFrontShiny;
+
+  Sprites({
+    this.frontDefault,
+    this.frontShiny,
+    this.backDefault,
+    this.backShiny,
+    this.frontFemale,
+    this.frontShinyFemale,
+    this.backFemale,
+    this.backShinyFemale,
+    this.officialArtworkFrontDefault,
+    this.officialArtworkBackDefault,
+    this.dreamWorld,
+    this.homeFrontDefault,
+    this.homeFrontShiny,
+    this.showdownFrontDefault,
+    this.showdownFrontShiny,
+  });
 
   factory Sprites.fromJson(Map<String, dynamic> json) {
     return Sprites(
-      frontDefault: json['front_default'],
-      frontShiny: json['front_shiny'],
+      frontDefault: json['front_default'] as String?,
+      frontShiny: json['front_shiny'] as String?,
+      backDefault: json['back_default'] as String?,
+      backShiny: json['back_shiny'] as String?,
+      frontFemale: json['front_female'] as String?,
+      frontShinyFemale: json['front_shiny_female'] as String?,
+      backFemale: json['back_female'] as String?,
+      backShinyFemale: json['back_shiny_female'] as String?,
+
+      officialArtworkFrontDefault: json['other']?['official-artwork']?['front_default'] as String?,
+      officialArtworkBackDefault: json['other']?['official-artwork']?['back_default'] as String?,
+      dreamWorld: json['other']?['dream_world']?['front_default'] as String?,
+      homeFrontDefault: json['other']?['home']?['front_default'] as String?,
+      homeFrontShiny: json['other']?['home']?['front_shiny'] as String?,
+      showdownFrontDefault: json['other']?['showdown']?['front_default'] as String?,
+      showdownFrontShiny: json['other']?['showdown']?['front_shiny'] as String?,
     );
   }
 }
 
 class Stat {
-  final int baseStat;
-  final int effort;
-  final Species stat;
+  final int? baseStat;
+  final int? effort;
+  final Species? stat;
 
-  Stat({required this.baseStat, required this.effort, required this.stat});
+  Stat({this.baseStat, this.effort, this.stat});
 
   factory Stat.fromJson(Map<String, dynamic> json) {
     return Stat(
-      baseStat: json['base_stat'],
-      effort: json['effort'],
-      stat: Species.fromJson(json['stat']),
+      baseStat: json['base_stat'] as int?,
+      effort: json['effort'] as int?,
+      stat: json['stat'] != null ? Species.fromJson(json['stat']) : null,
     );
   }
 }
+

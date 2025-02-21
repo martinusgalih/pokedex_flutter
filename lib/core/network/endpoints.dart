@@ -10,6 +10,8 @@ class Endpoints {
   static const String pokemonFrontShinyImage = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/';
   static const String pokemonFrontShinyFemaleImage = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/female/';
 
+  static const String pokemonHomeFrontDefault = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/';
+
   static String getBackDefaultImage(int id) => '$pokemonBackDefaultImage$id.png';
   static String getBackFemaleImage(int id) => '$pokemonBackFemaleImage$id.png';
   static String getBackShinyImage(int id) => '$pokemonBackShinyImage$id.png';
@@ -18,4 +20,5 @@ class Endpoints {
   static String getFrontFemaleImage(int id) => '$pokemonFrontFemaleImage$id.png';
   static String getFrontShinyImage(int id) => '$pokemonFrontShinyImage$id.png';
   static String getFrontShinyFemaleImage(int id) => '$pokemonFrontShinyFemaleImage$id.png';
+  static String getHomeFrontDefaultImage(int id) => '$pokemonHomeFrontDefault$id.png';
 }

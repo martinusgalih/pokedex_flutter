@@ -16,6 +16,8 @@ dependencies:
   provider: ^6.1.2
   flutter_svg: ^2.0.17
   sliding_up_panel: ^2.0.0+1
+  audioplayers: ^6.2.0
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

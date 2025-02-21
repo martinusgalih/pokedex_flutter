@@ -5,6 +5,7 @@ import 'package:pokedex/core/theme/pokedex_theme.dart';
 import 'package:pokedex/features/pokedex_detail/presentation/pokedex_detail_screen.dart';
 import 'package:pokedex/features/pokedex_detail/provider/pokedex_detail_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shimmer/shimmer.dart';
 
 class PokedexCard extends ConsumerWidget {
   final PokemonModel pokemon;
@@ -18,10 +19,9 @@ class PokedexCard extends ConsumerWidget {
     return pokemonDetail.when(
       data: (detail) {
         final backgroundColor =
-        PokedexTheme.getTypeColor(detail.types.first.type.name);
+        PokedexTheme.getTypeColor(detail.types?.first.type?.name ?? '');
         return GestureDetector(
           onTap: () {
-            // Navigate to PokedexDetailScreen when tapped
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -56,16 +56,12 @@ class PokedexCard extends ConsumerWidget {
                     children: [
                       Text(
                         pokemon.name.toUpperCase(),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
+                        style: PokedexTheme.labelWhiteNormal,
                       ),
                       const SizedBox(height: 4),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: detail.types.map((type) {
+                        children: detail.types?.map((type) {
                           return Container(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 4),
@@ -75,15 +71,12 @@ class PokedexCard extends ConsumerWidget {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(
-                              type.type.name.toUpperCase(),
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              type.type?.name?.toUpperCase() ?? '',
+                              style: PokedexTheme.labelWhiteSmall,
                             ),
                           );
-                        }).toList(),
+                        }).toList() ??
+                            [],
                       ),
                     ],
                   ),
@@ -107,7 +100,25 @@ class PokedexCard extends ConsumerWidget {
           ),
         );
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
+      loading: () => Shimmer.fromColors(
+        baseColor: Colors.grey,
+        highlightColor: Colors.white70,
+        child: Card(
+          elevation: 4,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Container(
+            width: double.infinity,
+            height: 120,
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+      ),
       error: (error, _) => const Center(child: Text("Something went wrong")),
     );
   }
