@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pokedex/core/extension/string_extensions.dart';
+import 'package:pokedex/features/battle/presentation/battle_screen.dart';
 import 'package:pokedex/features/pokedex_detail/presentation/view/about_tab.dart';
 import 'package:pokedex/features/pokedex_detail/presentation/view/base_stat_tab.dart';
 import 'package:pokedex/features/pokedex_detail/presentation/view/evolution_tab.dart';
@@ -22,6 +23,8 @@ class PokedexDetailScreen extends StatefulWidget {
 class _PokedexDetailScreenState extends State<PokedexDetailScreen> {
   late final AudioPlayer _audioPlayer;
   double _pokemonOpacity = 1.0;
+
+  bool _isBottomSheetOpen = false;
 
   @override
   void initState() {
@@ -45,6 +48,10 @@ class _PokedexDetailScreenState extends State<PokedexDetailScreen> {
       await _audioPlayer.stop();
       await _audioPlayer.setSourceUrl(cryUrl);
       await _audioPlayer.resume();
+
+      _audioPlayer.onPlayerComplete.listen((event) {
+        _showBattleConfirmation();
+      });
     } catch (e) {
       print("Error playing cries: $e");
     }
@@ -52,6 +59,8 @@ class _PokedexDetailScreenState extends State<PokedexDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLandscape = MediaQuery.of(context).size.width > MediaQuery.of(context).size.height;
+
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -89,20 +98,20 @@ class _PokedexDetailScreenState extends State<PokedexDetailScreen> {
                         const SizedBox(height: 8),
                         Row(
                           children: widget.pokemon.types?.map((type) {
-                            return Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 4),
-                              margin: const EdgeInsets.only(right: 4),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(
-                                type.type?.name?.toUpperCase() ?? '',
-                                style: PokedexTheme.labelWhiteSmall,
-                              ),
-                            );
-                          }).toList() ??
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
+                                  margin: const EdgeInsets.only(right: 4),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    type.type?.name?.toUpperCase() ?? '',
+                                    style: PokedexTheme.labelWhiteSmall,
+                                  ),
+                                );
+                              }).toList() ??
                               [],
                         ),
                       ],
@@ -114,7 +123,6 @@ class _PokedexDetailScreenState extends State<PokedexDetailScreen> {
                   ),
                 ],
               ),
-
             ),
             Positioned(
               top: MediaQuery.of(context).size.height * 0.01,
@@ -171,19 +179,19 @@ class _PokedexDetailScreenState extends State<PokedexDetailScreen> {
               ),
             ),
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.18,
+              top: isLandscape ? -20:  MediaQuery.of(context).size.height * 0.18,
               left: 0,
               right: 0,
               child: GestureDetector(
                 onTap: () {
                   _playCry();
                 },
-                child: AnimatedOpacity(
+                child: _pokemonOpacity > 0 ? AnimatedOpacity(
                   opacity: _pokemonOpacity,
                   duration: const Duration(milliseconds: 200),
                   child: Align(
                     child: FractionallySizedBox(
-                      widthFactor: 0.7,
+                      widthFactor: isLandscape ? 0.3: 0.7,
                       child: Image.network(
                         widget.pokemon.sprites?.officialArtworkFrontDefault ??
                             '',
@@ -191,12 +199,86 @@ class _PokedexDetailScreenState extends State<PokedexDetailScreen> {
                       ),
                     ),
                   ),
-                ),
+                ) : const SizedBox.shrink(),
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  _showBattleConfirmation() async {
+    if (_isBottomSheetOpen) {
+      return;
+    }
+
+    _isBottomSheetOpen = true;
+
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          padding: const EdgeInsets.all(16),
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(20), topLeft: Radius.circular(20))),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                "Start Battle?",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                  "Do you want to start battle using ${widget.pokemon.name?.capitalize() ?? ''}?"),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _isBottomSheetOpen = false;
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: PokedexTheme.red,
+                      foregroundColor: Colors.black,
+                    ),
+                    child: const Text("Cancel",
+                        style: PokedexTheme.labelWhiteSmall),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _isBottomSheetOpen = false;
+                      _navigateToBattle();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: PokedexTheme.green,
+                      foregroundColor: Colors.black,
+                    ),
+                    child: const Text("Start",
+                        style: PokedexTheme.labelWhiteSmall),
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      },
+    ).whenComplete(() {
+      _isBottomSheetOpen = false;
+    });
+  }
+
+  void _navigateToBattle() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => BattleScreen(playerPokemon: widget.pokemon)),
     );
   }
 }

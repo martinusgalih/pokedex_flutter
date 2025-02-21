@@ -1,3 +1,5 @@
+import 'package:pokedex/core/model/pokemon_species.dart';
+
 class PokemonDetailModel {
   final int? id;
   final String? name;
@@ -48,7 +50,7 @@ class PokemonDetailModel {
 }
 
 class Ability {
-  final Species? ability;
+  final StringUrlData? ability;
   final bool? isHidden;
   final int? slot;
 
@@ -56,7 +58,7 @@ class Ability {
 
   factory Ability.fromJson(Map<String, dynamic> json) {
     return Ability(
-      ability: json['ability'] != null ? Species.fromJson(json['ability']) : null,
+      ability: json['ability'] != null ? StringUrlData.fromJson(json['ability']) : null,
       isHidden: json['is_hidden'] as bool?,
       slot: json['slot'] as int?,
     );
@@ -64,13 +66,13 @@ class Ability {
 }
 
 class Move {
-  final Species? move;
+  final StringUrlData? move;
 
   Move({this.move});
 
   factory Move.fromJson(Map<String, dynamic> json) {
     return Move(
-      move: json['move'] != null ? Species.fromJson(json['move']) : null,
+      move: json['move'] != null ? StringUrlData.fromJson(json['move']) : null,
     );
   }
 }
@@ -91,28 +93,14 @@ class Cries {
 
 class TypeElement {
   final int? slot;
-  final Species? type;
+  final StringUrlData? type;
 
   TypeElement({this.slot, this.type});
 
   factory TypeElement.fromJson(Map<String, dynamic> json) {
     return TypeElement(
       slot: json['slot'] as int?,
-      type: json['type'] != null ? Species.fromJson(json['type']) : null,
-    );
-  }
-}
-
-class Species {
-  final String? name;
-  final String? url;
-
-  Species({this.name, this.url});
-
-  factory Species.fromJson(Map<String, dynamic> json) {
-    return Species(
-      name: json['name'] as String?,
-      url: json['url'] as String?,
+      type: json['type'] != null ? StringUrlData.fromJson(json['type']) : null,
     );
   }
 }
@@ -133,6 +121,7 @@ class Sprites {
   final String? homeFrontDefault;
   final String? homeFrontShiny;
   final String? showdownFrontDefault;
+  final String? showdownBackDefault;
   final String? showdownFrontShiny;
 
   Sprites({
@@ -150,6 +139,7 @@ class Sprites {
     this.homeFrontDefault,
     this.homeFrontShiny,
     this.showdownFrontDefault,
+    this.showdownBackDefault,
     this.showdownFrontShiny,
   });
 
@@ -170,6 +160,7 @@ class Sprites {
       homeFrontDefault: json['other']?['home']?['front_default'] as String?,
       homeFrontShiny: json['other']?['home']?['front_shiny'] as String?,
       showdownFrontDefault: json['other']?['showdown']?['front_default'] as String?,
+      showdownBackDefault: json['other']?['showdown']?['back_default'] as String?,
       showdownFrontShiny: json['other']?['showdown']?['front_shiny'] as String?,
     );
   }
@@ -178,7 +169,7 @@ class Sprites {
 class Stat {
   final int? baseStat;
   final int? effort;
-  final Species? stat;
+  final StringUrlData? stat;
 
   Stat({this.baseStat, this.effort, this.stat});
 
@@ -186,7 +177,7 @@ class Stat {
     return Stat(
       baseStat: json['base_stat'] as int?,
       effort: json['effort'] as int?,
-      stat: json['stat'] != null ? Species.fromJson(json['stat']) : null,
+      stat: json['stat'] != null ? StringUrlData.fromJson(json['stat']) : null,
     );
   }
 }

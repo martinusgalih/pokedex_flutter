@@ -17,7 +17,8 @@ class EvolutionTab extends ConsumerWidget {
 
     return evolutionAsync.when(
       data: (evolutionModel) {
-        List<EvolutionStep> evolutionSteps = _extractEvolutionSteps(evolutionModel.chain);
+        List<EvolutionStep> evolutionSteps =
+            _extractEvolutionSteps(evolutionModel.chain);
 
         return ListView.builder(
           itemCount: evolutionSteps.length,
@@ -42,7 +43,9 @@ class EvolutionTab extends ConsumerWidget {
       steps.add(EvolutionStep(
         from: chain.name.capitalize(),
         to: evolution.name.capitalize(),
-        level: evolution.evolutionDetails.isNotEmpty ? evolution.evolutionDetails.first.minLevel : null,
+        level: evolution.evolutionDetails.isNotEmpty
+            ? evolution.evolutionDetails.first.minLevel
+            : null,
       ));
       steps.addAll(_extractEvolutionSteps(evolution));
     }

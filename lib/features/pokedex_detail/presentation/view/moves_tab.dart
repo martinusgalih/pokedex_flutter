@@ -10,6 +10,10 @@ class MovesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (pokemon.moves == null || (pokemon.moves?.isEmpty ?? true)) {
+      return const Center(child: Text("Data not available"));
+    }
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: ListView.builder(
@@ -17,11 +21,14 @@ class MovesTab extends StatelessWidget {
         itemCount: pokemon.moves?.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(pokemon.moves?[index].move?.name?.capitalize() ?? '', style: PokedexTheme.labelBlack),
+            title: Text(pokemon.moves?[index].move?.name?.capitalize() ?? '',
+                style: PokedexTheme.labelBlack),
             leading: const SizedBox(
               width: 18,
               height: 18,
-              child: Image(image: AssetImage("assets/images/tm_move.png")),
+              child: Image(
+                image: AssetImage("assets/images/tm_move.png"),
+              ),
             ),
           );
         },

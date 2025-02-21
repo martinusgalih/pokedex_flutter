@@ -20,7 +20,7 @@ class _PokedexScreenState extends ConsumerState<PokedexScreen> {
     _scrollController.addListener(_onScroll);
 
     Future.microtask(
-            () => ref.read(pokemonListProvider.notifier).loadPokemons());
+        () => ref.read(pokemonListProvider.notifier).loadPokemons());
   }
 
   void _onScroll() {
@@ -44,28 +44,28 @@ class _PokedexScreenState extends ConsumerState<PokedexScreen> {
       body: pokemonListState.pokemons.isEmpty && pokemonListState.isLoading
           ? _buildShimmerGrid(crossAxisCount)
           : Column(
-        children: [
-          Expanded(
-            child: GridView.builder(
-              padding: const EdgeInsets.only(left: 12, right: 12),
-              controller: _scrollController,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: crossAxisCount,
-              ),
-              itemCount: pokemonListState.pokemons.length,
-              itemBuilder: (context, index) {
-                return PokedexCard(
-                    pokemon: pokemonListState.pokemons[index]);
-              },
+              children: [
+                Expanded(
+                  child: GridView.builder(
+                    padding: const EdgeInsets.only(left: 12, right: 12),
+                    controller: _scrollController,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxisCount,
+                    ),
+                    itemCount: pokemonListState.pokemons.length,
+                    itemBuilder: (context, index) {
+                      return PokedexCard(
+                          pokemon: pokemonListState.pokemons[index]);
+                    },
+                  ),
+                ),
+                if (pokemonListState.isLoading)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: _buildShimmerLoading(),
+                  ),
+              ],
             ),
-          ),
-          if (pokemonListState.isLoading)
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _buildShimmerLoading(),
-            ),
-        ],
-      ),
     );
   }
 
@@ -78,8 +78,8 @@ class _PokedexScreenState extends ConsumerState<PokedexScreen> {
       itemCount: 8,
       itemBuilder: (context, index) {
         return Shimmer.fromColors(
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
+          baseColor: Colors.grey,
+          highlightColor: Colors.white70,
           child: Container(
             margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
@@ -95,8 +95,8 @@ class _PokedexScreenState extends ConsumerState<PokedexScreen> {
 
   Widget _buildShimmerLoading() {
     return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
+      baseColor: Colors.grey,
+      highlightColor: Colors.white70,
       child: Container(
         width: 50,
         height: 50,

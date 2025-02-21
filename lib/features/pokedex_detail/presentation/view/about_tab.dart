@@ -21,49 +21,51 @@ class AboutTab extends ConsumerWidget {
     return speciesAsync.when(
       data: (species) => Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              getFlavorText(species),
-              style: PokedexTheme.labelBlack,
-            ),
-            const SizedBox(height: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                infoRow("Name", species.name?.capitalize() ?? ''),
-                infoRow("Base Happiness", species.baseHappiness.toString()),
-                infoRow("Capture Rate", species.captureRate.toString()),
-                infoRow("Color", species.color?.name?.capitalize() ?? ''),
-                infoRow(
-                    "Legendary", species.isLegendary ?? false ? "Yes" : "No"),
-                infoRow("Mythical", species.isMythical ?? false ? "Yes" : "No"),
-                infoRow("Height", "${(pokemon.height ?? 0) / 10} m"),
-                infoRow("Weight", "${(pokemon.weight ?? 0) / 10} kg"),
-                infoRow(
-                  "Egg Groups",
-                  species.eggGroups
-                          ?.map((e) => e.name?.capitalize())
-                          .join(', ') ??
-                      '',
-                ),
-                infoRow(
-                  "Abilities",
-                  pokemon.abilities
-                          ?.map((e) => e.ability?.name?.capitalize())
-                          .join(', ') ??
-                      '',
-                ),
-                infoRow("Gender Ratio",
-                    buildGenderRatioRow(species.genderRate ?? 0)),
-                infoRow("Growth Rate", species.growthRate?.name?.capitalize()),
-                infoRow("Habitat", species.habitat?.name?.capitalize()),
-                infoRow("Shape", species.shape?.name?.capitalize()),
-              ],
-            ),
-            const SizedBox(height: 10),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                getFlavorText(species),
+                style: PokedexTheme.labelBlack,
+              ),
+              const SizedBox(height: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  infoRow("Name", species.name?.capitalize() ?? ''),
+                  infoRow("Base Happiness", species.baseHappiness.toString()),
+                  infoRow("Capture Rate", species.captureRate.toString()),
+                  infoRow("Color", species.color?.name?.capitalize() ?? ''),
+                  infoRow(
+                      "Legendary", species.isLegendary ?? false ? "Yes" : "No"),
+                  infoRow("Mythical", species.isMythical ?? false ? "Yes" : "No"),
+                  infoRow("Height", "${(pokemon.height ?? 0) / 10} m"),
+                  infoRow("Weight", "${(pokemon.weight ?? 0) / 10} kg"),
+                  infoRow(
+                    "Egg Groups",
+                    species.eggGroups
+                            ?.map((e) => e.name?.capitalize())
+                            .join(', ') ??
+                        '',
+                  ),
+                  infoRow(
+                    "Abilities",
+                    pokemon.abilities
+                            ?.map((e) => e.ability?.name?.capitalize())
+                            .join(', ') ??
+                        '',
+                  ),
+                  infoRow("Gender Ratio",
+                      buildGenderRatioRow(species.genderRate ?? 0)),
+                  infoRow("Growth Rate", species.growthRate?.name?.capitalize()),
+                  infoRow("Habitat", species.habitat?.name?.capitalize()),
+                  infoRow("Shape", species.shape?.name?.capitalize()),
+                ],
+              ),
+              const SizedBox(height: 10),
+            ],
+          ),
         ),
       ),
       loading: () => _buildShimmerLoading(),

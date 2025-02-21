@@ -19,7 +19,7 @@ class PokedexCard extends ConsumerWidget {
     return pokemonDetail.when(
       data: (detail) {
         final backgroundColor =
-        PokedexTheme.getTypeColor(detail.types?.first.type?.name ?? '');
+            PokedexTheme.getTypeColor(detail.types?.first.type?.name ?? '');
         return GestureDetector(
           onTap: () {
             Navigator.push(
@@ -62,20 +62,20 @@ class PokedexCard extends ConsumerWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: detail.types?.map((type) {
-                          return Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            margin: const EdgeInsets.only(bottom: 4),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              type.type?.name?.toUpperCase() ?? '',
-                              style: PokedexTheme.labelWhiteSmall,
-                            ),
-                          );
-                        }).toList() ??
+                              return Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 4),
+                                margin: const EdgeInsets.only(bottom: 4),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Text(
+                                  type.type?.name?.toUpperCase() ?? '',
+                                  style: PokedexTheme.labelWhiteSmall,
+                                ),
+                              );
+                            }).toList() ??
                             [],
                       ),
                     ],

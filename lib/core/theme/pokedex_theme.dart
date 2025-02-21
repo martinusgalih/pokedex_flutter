@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PokedexTheme {
+  static const String p2pFont = 'PressStart2P';
+
   static const Color gray = Color(0xFFB7B7CE);
   static const Color brown = Color(0xFFA8A77A);
   static const Color orange = Color(0xFFEE8130);
@@ -107,6 +109,34 @@ class PokedexTheme {
   static const TextStyle labelWhiteSmall = TextStyle(
     fontWeight: FontWeight.bold,
     fontSize: 12,
+    color: Colors.white,
+  );
+
+  static const TextStyle labelP2pLarge = TextStyle(
+    fontFamily: p2pFont,
+    fontWeight: FontWeight.bold,
+    fontSize: 18,
+    color: Colors.black,
+  );
+
+  static const TextStyle labelP2pMedium = TextStyle(
+    fontFamily: p2pFont,
+    fontWeight: FontWeight.bold,
+    fontSize: 14,
+    color: Colors.black,
+  );
+
+  static const TextStyle labelP2pSmall = TextStyle(
+    fontFamily: p2pFont,
+    fontWeight: FontWeight.bold,
+    fontSize: 10,
+    color: Colors.black,
+  );
+
+  static const TextStyle labelP2pMediumWhite = TextStyle(
+    fontFamily: p2pFont,
+    fontWeight: FontWeight.bold,
+    fontSize: 14,
     color: Colors.white,
   );
 }
