@@ -42,31 +42,29 @@ https://youtube.com/shorts/y6c2UJNGGnE
 ## Project Structure
 
 lib/
-├── core/
-│   ├── extension/
-│   ├── model/
-│   ├── network/
-│   ├── theme/
-│   └── utils/
+├── core/                        # Core functionality and utilities
+│   ├── extension/               # Extension methods (e.g., String, DateTime)
+│   ├── model/                   # Data models (e.g., Pokémon models)
+│   ├── network/                 # Network-related code (e.g., API clients, Dio setup)
+│   ├── theme/                   # App themes, colors, and text styles
+│   └── utils/                   # Utility functions and helpers
 │
-├── features/
-│   ├── feature_name/
-│   │   ├── data/
-│   │   │   └── repositories/
-│   │   │   
-│   │   ├── presentation/
-│   │   │   ├── widgets/
-│   │   │   └── screens/
-│   │   └── provider/
+├── features/                    # Feature-based modules
+│   ├── feature_name/            # Example: pokedex_detail, battle, etc.
+│   │   ├── data/                # Data layer (repositories)
+│   │   │   └── repositories/    # Repository implementations
+│   │   ├── presentation/        # Presentation layer (UI)
+│   │   │   ├── widgets/         # Reusable widgets for this feature
+│   │   │   └── screens/         # Screens for this feature
+│   │   └── provider/            # State management (Riverpod providers)
 │   │
-│   └── ...
+│   └── ...                     # Other features (e.g., battle, pokedex_list)
 │
-├── shared/
-│   └── widgets/
-│   
+├── shared/                      # Shared components across features
+│   └── widgets/                 # Global reusable widgets (e.g., buttons, loaders)
 │
-├── main.dart
-└── routes.dart
+├── main.dart                    # App entry point
+└── routes.dart                  # App routing (if using named routes)
 
 ## Credits
 PokeAPI for Pokémon data. [Poke API](https://pokeapi.co/)
